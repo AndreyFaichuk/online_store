@@ -1,4 +1,4 @@
-const sequelize = require("../db")
+const sequelize = require("../DB-setings")
 const {DataTypes} = require("sequelize")
 
 const BrandAndType = sequelize.define("brand_type", {

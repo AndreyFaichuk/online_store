@@ -1,6 +1,9 @@
 const express = require("express")
-const sequelize = require("./db")
+const fileUpload = require("express-fileupload")
+const sequelize = require("./DB-setings")
 const modelDB = require("./modelDb/modelDb")
+const router  = require("./server_routes/index")
+const error_middleware = require("./middleware/error_middleware")
 const cors = require("cors")
 require("dotenv").config()
 
@@ -9,10 +12,9 @@ const port = process.env.PORT || 5000
 const app = express()
 app.use(cors())
 app.use(express.json())
-
-app.get("/", (req, res) =>{
-    res.status(200).json({message: "workcccc"})
-})
+app.use(fileUpload({}))
+app.use("/api", router)
+app.use(error_middleware) /*it goes last and sends response to the client*/
 
 const start = async () => {
     try{
