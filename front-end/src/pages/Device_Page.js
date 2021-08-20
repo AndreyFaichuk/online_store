@@ -5,7 +5,15 @@ import Button from "react-bootstrap/Button";
 
 const DevicePage = () => {
 
-    const device = {id: 1, name: "Iphone 11 pro", price: 99999, rating: 5, img: photo }
+    const device = {id: 1, name: "Iphone 11 pro", price: 99999, rating: 5, img: photo}
+
+    const description = [
+        {id:1, title:"Memory", description:"5 gb"},
+        {id:2, title:"Camera", description:"12 mpx"},
+        {id:3, title:"CPU", description:"A1"},
+        {id:4, title:"Color", description:"Yellow"},
+        {id:5, title:"Battery", description:"5000 mah"}
+    ]
 
     return (
        <div className="device_modal">
@@ -14,8 +22,12 @@ const DevicePage = () => {
            </div>
 
            <div className="more_info">
-                   <p>Name: </p>
-                   <p>Rating:</p>
+               <h4>Characteristics:</h4>
+               {description.map((info) =>
+                   <p key={info.id}>
+                       {info.title} : {info.description}
+                   </p>
+               )}
            </div>
            <div className="buttonToCart">
                <h4>Price:</h4>

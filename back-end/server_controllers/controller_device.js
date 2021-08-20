@@ -1,5 +1,7 @@
 const uuid = require("uuid")
 const path = require("path")
+const jwt = require("jsonwebtoken")
+const secret = process.env.SECRET
 const {Device, DeviceInfo} = require("../modelDb/modelDb")
 const Error_api = require("../error_handler/error_api")
 
@@ -62,6 +64,41 @@ class Controller_device {
         }
     }
 
+    async changeStatusReserve (req, res) {
+        try{
+            const {id} = req.body
+
+            const deviseById = await Device.findOne({where: {id}})
+
+            deviseById.isReserved = true
+            deviseById.userId = req.user.id
+
+            await deviseById.save()
+
+            return res.json(deviseById)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    async changeStatusCancelReserve (req, res) {
+        try{
+            const {id} = req.body
+
+            const deviseById = await Device.findOne({where: {id}})
+
+            deviseById.isReserved = false
+            deviseById.userId = null
+
+            await deviseById.save()
+
+            return res.json(deviseById)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
 }
+
 
 module.exports = new Controller_device()

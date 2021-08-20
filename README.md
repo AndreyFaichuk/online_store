@@ -3,4 +3,5 @@
 1. Added data structure in PostreSQL (entities: user, basket, devise, devise info, brand, type etc.)
 2. Added server routes, server controllers and error middleware. CRUD for types, brands and devices. 
 Added static directory for device picture.
-3.Started front-end part with React and React bootstrap. Added routes, state, registration \ login forms.
+3. Started front-end part with React and React bootstrap. Added routes, state, registration \ login forms.
+4. Added modal windows for brands, devices and types. Finished registration \ login forms and basket.

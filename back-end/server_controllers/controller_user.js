@@ -14,11 +14,12 @@ class Controller_user {
     async registration (req, res, next) {
         const {name, email, phone, password, role} = req.body
 
+        if(!email && !password && !phone && !name) return next (Error_api.request_bad("All fields are empty!"))
         if(!email || !password) return next (Error_api.request_bad("Incorrect email or password"))
 
         const condidate = await User.findOne({where: {email}})
 
-        if(condidate) return next (Error_api.request_bad(`User with this email already exist`))
+        if(condidate) return next (Error_api.request_bad(`User with this email already exists`))
 
         const password_hash = await bcrypt.hash(password, 6)
 
@@ -45,6 +46,9 @@ class Controller_user {
 
         const user = await User.findOne({where: {email}})
 
+        if(!email) return next(Error_api.inner(`Email field is empty!`))
+        if(!password) return next(Error_api.inner(`Password field is empty!`))
+
         if(!user) return next(Error_api.inner(`User with email ${email} not found`))
 
         let compare_password = bcrypt.compareSync(password, user.password)
@@ -58,3 +62,4 @@ class Controller_user {
 }
 
 module.exports = new Controller_user()
+

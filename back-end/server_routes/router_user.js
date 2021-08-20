@@ -9,3 +9,4 @@ router.get("/auth", auth_middleware, controller_user.isAuth)
 
 
 module.exports = router
+
