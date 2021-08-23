@@ -24,6 +24,7 @@ const Device = sequelize.define("device", {
     isReserved: {type: DataTypes.BOOLEAN, defaultValue: false}
 })
 
+
 const Type = sequelize.define("type", {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false}
@@ -32,11 +33,6 @@ const Type = sequelize.define("type", {
 const Brand = sequelize.define("brand", {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false}
-})
-
-const Rating = sequelize.define("rating", {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    rate: {type: DataTypes.STRING, allowNull: false}
 })
 
 const DeviceInfo = sequelize.define("device_info", {
@@ -50,29 +46,19 @@ Type.belongsToMany(Brand, {through: BrandAndType})
 Brand.belongsToMany(Type, {through: BrandAndType})
 /*relationship between type and brand is many to many, add intermediate table*/
 
-User.hasMany(Rating)
-Rating.belongsTo(User)
-/*relationship between user and rating is one to many*/
-
 User.hasMany(Device)
 Device.belongsTo(User)
-/*relationship between basket and basket device is one to many*/
 
 Type.hasMany(Device)
 Device.belongsTo(Type)
-/*relationship between type and device is one to many*/
 
 Brand.hasMany(Device)
 Device.belongsTo(Brand)
 /*relationship between brand and device is one to many*/
 
-Device.hasMany(Rating)
-Rating.belongsTo(Device)
-/*relationship between device and rating is one to many*/
-
 Device.hasMany(DeviceInfo, {as: "info"})
 DeviceInfo.belongsTo(Device)
 /*relationship between device and device info is one to many*/
 
-module.exports = {BrandAndType, Type, Brand, Rating, Device, DeviceInfo, User}
+module.exports = {BrandAndType, Type, Brand, Device, DeviceInfo, User}
 

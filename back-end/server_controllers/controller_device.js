@@ -41,10 +41,10 @@ class Controller_device {
             limit = limit || 10
             let offset = page * limit - limit
 
-            if(!brandId && !typeId) devices = await Device.findAndCountAll({limit, offset})
-            if(brandId && !typeId)  devices = await Device.findAndCountAll({where: {brandId}, limit, offset})
-            if(!brandId && typeId)  devices = await Device.findAndCountAll({where: {typeId}, limit, offset})
-            if(brandId && typeId)   devices = await Device.findAndCountAll({where: {typeId, brandId}, limit, offset})
+            if(!brandId && !typeId) devices = await Device.findAndCountAll({limit, offset, order: [['id', 'ASC']]})
+            if(brandId && !typeId)  devices = await Device.findAndCountAll({where: {brandId}, limit, offset, order: [['id', 'ASC']] })
+            if(!brandId && typeId)  devices = await Device.findAndCountAll({where: {typeId}, limit, offset, order: [['id', 'ASC']] })
+            if(brandId && typeId)   devices = await Device.findAndCountAll({where: {typeId, brandId}, limit, offset, order: [['id', 'ASC']] })
 
             /*findAndCountAll needs for pagination, how many pages we have on front-end side */
 
@@ -98,7 +98,35 @@ class Controller_device {
         }
     }
 
+    async rating (req, res) {
+        try{
+            const {id} = req.body
+
+            console.log(id)
+
+            const deviseById = await Device.findOne({where: {id}})
+
+            deviseById.rating += 1
+
+            await deviseById.save()
+
+            let devices
+
+            let {limit, page} = req.query
+            page = page || 1
+            limit = limit || 4
+            let offset = page * limit - limit
+
+            devices = await Device.findAll({limit, offset, order: [['id', 'ASC']]})
+
+            return res.json(devices)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
 }
+
 
 
 module.exports = new Controller_device()

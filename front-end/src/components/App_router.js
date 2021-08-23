@@ -4,9 +4,11 @@ import {onlyAuthRoutes, publicRoutes} from "../routes"
 import {SHOP_ROUTE} from "../utils/constants"
 import {Context} from "../index"
 
+
+
+
 const AppRouter = () => {
     const {user} = useContext(Context)
-
 
     return (
        <Switch>
@@ -21,5 +23,8 @@ const AppRouter = () => {
        </Switch>
     );
 };
+
+
+
 
 export default AppRouter;

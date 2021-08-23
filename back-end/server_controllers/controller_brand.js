@@ -1,5 +1,4 @@
 const {Brand} = require("../modelDb/modelDb")
-const Error_api = require("../error_handler/error_api")
 
 class Controller_brand {
     async create (req, res) {

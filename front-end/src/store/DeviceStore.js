@@ -3,33 +3,14 @@ import photo from "../imgs/f4965aa0b26d7b9c64a5fae7387adc6b.jpg"
 
 export default class DeviceStore{
     constructor() {
-        this._types = [
-            {id: 1, name: "Smartphones"},
-            {id: 2, name: "TV`s"},
-            {id: 3, name: "Smartphones"},
-            {id: 4, name: "TV`s"},
-            {id: 5, name: "Smartphones"},
-            {id: 6, name: "TV`s"}
-        ]
-
-        this._brands = [
-            {id: 1, name: "Samsung"},
-            {id: 2, name: "Apple"},
-            {id: 3, name: "Asus"},
-            {id: 4, name: "Lenovo"},
-        ]
-
-        this._devices = [
-            {id: 1, name: "Iphone 11 pro", price: 99999, rating: 5, img: photo },
-            {id: 2, name: "Iphone 11 pro", price: 99999, rating: 5, img: photo },
-            {id: 3, name: "Iphone 11 pro", price: 99999, rating: 5, img: photo },
-            {id: 4, name: "Iphone 11 pro", price: 99999, rating: 5, img: photo },
-            {id: 5, name: "Iphone 11 pro", price: 99999, rating: 5, img: photo },
-            {id: 6, name: "Iphone 11 pro", price: 99999, rating: 5, img: photo },
-        ]
-
+        this._types = []
+        this._brands = []
+        this._devices = []
         this._selectedType = {}
         this._selectedBrand = {}
+        this._page = 1
+        this._totalCount = 0
+        this._limit = 4
         makeAutoObservable(this)
     }
 
@@ -62,14 +43,36 @@ export default class DeviceStore{
     }
 
     setSelectedType (type) {
+        this.setPage(1)
         this._selectedType = type
     }
 
+    setPage (page) {
+        this._page = page
+    }
+
+    setTotalCount (count) {
+        this._totalCount = count
+    }
+
     setSelectedBrand (brand) {
+        this.setPage(1)
         this._selectedBrand = brand
     }
 
     get selectedBrand () {
         return this._selectedBrand
+    }
+
+    get totalCount () {
+        return this._totalCount
+    }
+
+    get page () {
+        return this._page
+    }
+
+    get limit () {
+        return this._limit
     }
 }

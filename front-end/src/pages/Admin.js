@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Modal_type from "../components/modals/Modal_type";
 import Modal_brand from "../components/modals/Modal_brand";
@@ -9,7 +8,6 @@ const Admin = () => {
     const [visibeBrand, setVisibleBrand] = useState(false)
     const [visibeType, setVisibleType] = useState(false)
     const [visibeDevice, setVisibleDevice] = useState(false)
-
 
     return (
         <>

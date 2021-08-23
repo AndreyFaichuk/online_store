@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import {NavLink, useHistory, useLocation} from "react-router-dom";
-import {REGISTRATION_ROUTE, LOGIN_ROUTE, SHOP_ROUTE} from "../utils/constants";
+import {REGISTRATION_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, ADMIN_ROUTE} from "../utils/constants";
 import {login, registration} from "../requests_http/user_api";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
@@ -39,8 +39,7 @@ const Auth = observer(() => {
         setShowSuccess('')
     }
 
-
-    const regAndAuth = async () => {
+        const regAndAuth = async () => {
             try{
                 let data
 
@@ -53,10 +52,8 @@ const Auth = observer(() => {
                         data = await login(email, password)
 
                         if(data) {
-                            user.setUser(user)
+                            user.setUser(data)
                             user.setIsAuth(true)
-                            setEmail('')
-                            setPassword('')
                             setShowSuccess("logged in")
                             setTimeout(cleaner, 2000)
                             setTimeout(() => history.push(SHOP_ROUTE), 2000)
@@ -72,25 +69,22 @@ const Auth = observer(() => {
 
                     if(email.match(regexForEmail) && phone.match(regexForPhone) && name.match(regexForName) && password.match(regexForPassword)){
 
-                      data = await registration(email, password, phone, name)
+                        data = await registration(email, password, phone, name)
 
-                      if(data){
-                          user.setUser(user)
-                          user.setIsAuth(true)
-                          setShowSuccess("registered")
-                          setEmail('')
-                          setName('')
-                          setPhone('')
-                          setPassword('')
-                          setTimeout(cleaner, 3000)
-                      }
+                        if(data){
+                            user.setUser(data)
+                            user.setIsAuth(true)
+                            setShowSuccess("registered")
+                            setTimeout(cleaner, 3000)
+                            setTimeout(() => history.push(SHOP_ROUTE), 2000)
+                        }
                     }
                 }
             } catch (e) {
                 setShowError(e.response.data.message)
                 setTimeout(cleaner, 3000)
             }
-    }
+        }
 
     return (
         <Container className="d-flex justify-content-center align-items-center" style = {{height: 500}}>

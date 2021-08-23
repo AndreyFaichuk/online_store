@@ -1,10 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import {Form} from "react-bootstrap";
 import FloatingLabel from "react-bootstrap-floating-label";
+import {createTypes} from "../../requests_http/device_api";
 
 const ModalType = ({show, onHide}) => {
+    const [value, setValue] = useState('')
+
+    const addType = () => {
+        createTypes({name: value}).then(data => {
+            setValue('')
+            onHide()
+        })
+    }
+
     return (
         <Modal
             show={show}
@@ -19,13 +29,18 @@ const ModalType = ({show, onHide}) => {
             </Modal.Header>
             <Modal.Body>
                 <Form className="inputs-modal">
-                    <FloatingLabel controlId="floatingPassword" label="enter name of type">
-                        <Form.Control type="text" placeholder="Password" />
+                    <FloatingLabel
+                        controlId="floatingPassword"
+                        label="enter name of type"
+                        value={value}
+                        onChange={e => setValue(e.target.value)}
+                    >
+                        <Form.Control type="text"  />
                     </FloatingLabel>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success">Add</Button>
+                <Button variant="success" onClick={addType}>Add</Button>
                 <Button variant="danger" onClick={onHide}>Close</Button>
             </Modal.Footer>
         </Modal>

@@ -1,5 +1,4 @@
 import axios from "axios"
-import {config} from "dotenv";
 
 const $host = axios.create({
     baseURL: process.env.REACT_APP_API_URL
@@ -16,7 +15,4 @@ const authInterceptor = (config) => {
 
 $authHost.interceptors.request.use(authInterceptor)
 
-export {
-    $host,
-    $authHost
-}
+export {$host, $authHost}
