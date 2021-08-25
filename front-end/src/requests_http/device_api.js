@@ -17,7 +17,7 @@ export const createBrands = async (brand) => {
     return data
 }
 
-export const allBrands = async (typeId, brandId, page, limit = 4) => {
+export const allBrands = async () => {
     const {data} = await $host.get('api/brand')
     return data
 }
@@ -41,9 +41,30 @@ export const getOneDevice = async (id) => {
     return data
 }
 
-export const rating = async (id, page) => {
-    const {data} = await $host.post('api/device/rating', {id}, {params: {
-            page
+/*--------------*/
+
+export const addRating = async (id, page, typeId, brandId,) => {
+    const {data} = await $host.post('api/device/addrating', {id}, {params: {
+            page, typeId, brandId
         }})
+    return data
+}
+
+export const removeRating = async (id, page, typeId, brandId,) => {
+    const {data} = await $host.post('api/device/removerating', {id}, {params: {
+            page, typeId, brandId
+        }})
+    return data
+}
+
+/*--------------*/
+
+export const addToCart = async (id, userId) => {
+    const {data} = await $authHost.post('api/device/addreserve', {id, userId})
+    return data
+}
+
+export const removeFromCart = async (id) => {
+    const {data} = await $authHost.post('api/device/removereserve', {id})
     return data
 }

@@ -66,16 +66,18 @@ class Controller_device {
 
     async changeStatusReserve (req, res) {
         try{
-            const {id} = req.body
+            const {id, userId} = req.body
 
             const deviseById = await Device.findOne({where: {id}})
 
             deviseById.isReserved = true
-            deviseById.userId = req.user.id
+            deviseById.userId = userId
 
             await deviseById.save()
 
-            return res.json(deviseById)
+           const devices = await Device.findAll({order: [['id', 'ASC']]})
+
+            return res.json(devices)
         } catch (e) {
             console.log(e)
         }
@@ -90,19 +92,20 @@ class Controller_device {
             deviseById.isReserved = false
             deviseById.userId = null
 
+            const devices = await Device.findAll({order: [['id', 'ASC']]})
+
             await deviseById.save()
 
-            return res.json(deviseById)
+
+            return res.json(devices)
         } catch (e) {
             console.log(e)
         }
     }
 
-    async rating (req, res) {
+    async addRating (req, res) {
         try{
             const {id} = req.body
-
-            console.log(id)
 
             const deviseById = await Device.findOne({where: {id}})
 
@@ -112,12 +115,45 @@ class Controller_device {
 
             let devices
 
-            let {limit, page} = req.query
+            let {limit, page, brandId, typeId} = req.query
             page = page || 1
             limit = limit || 4
             let offset = page * limit - limit
 
-            devices = await Device.findAll({limit, offset, order: [['id', 'ASC']]})
+            if(!brandId && !typeId) devices = await Device.findAndCountAll({limit, offset, order: [['id', 'ASC']]})
+            if(brandId && !typeId)  devices = await Device.findAndCountAll({where: {brandId}, limit, offset, order: [['id', 'ASC']] })
+            if(!brandId && typeId)  devices = await Device.findAndCountAll({where: {typeId}, limit, offset, order: [['id', 'ASC']] })
+            if(brandId && typeId)   devices = await Device.findAndCountAll({where: {typeId, brandId}, limit, offset, order: [['id', 'ASC']] })
+
+            return res.json(devices)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    async removeRating (req, res) {
+        try{
+            const {id} = req.body
+
+            const deviseById = await Device.findOne({where: {id}})
+
+            if(deviseById.rating > 0) {
+                deviseById.rating -= 1
+
+                await deviseById.save()
+            }
+
+            let devices
+
+            let {limit, page, brandId, typeId} = req.query
+            page = page || 1
+            limit = limit || 4
+            let offset = page * limit - limit
+
+            if(!brandId && !typeId) devices = await Device.findAndCountAll({limit, offset, order: [['id', 'ASC']]})
+            if(brandId && !typeId)  devices = await Device.findAndCountAll({where: {brandId}, limit, offset, order: [['id', 'ASC']] })
+            if(!brandId && typeId)  devices = await Device.findAndCountAll({where: {typeId}, limit, offset, order: [['id', 'ASC']] })
+            if(brandId && typeId)   devices = await Device.findAndCountAll({where: {typeId, brandId}, limit, offset, order: [['id', 'ASC']] })
 
             return res.json(devices)
         } catch (e) {

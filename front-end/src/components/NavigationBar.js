@@ -15,7 +15,7 @@ import {allBrands, allDevices, allTypes} from "../requests_http/device_api";
 
 const NavigationBar = observer(() => {
 
-    const {user,device} = useContext(Context)
+    const {user, device} = useContext(Context)
     const history = useHistory()
 
  const logOut = () => {
@@ -25,10 +25,19 @@ const NavigationBar = observer(() => {
         history.push(SHOP_ROUTE)
  }
 
+ const allItems = () => {
+     allDevices(null, null, 1, device.limit).then(data => {
+         device.setDevices(data.rows)
+         device.setTotalCount(data.count)
+         device.setSelectedType({})
+         device.setSelectedBrand({})
+     })
+ }
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-                <NavLink className="logo" to={SHOP_ROUTE}>  <img src={logo} alt={"logo"}/> </NavLink>
+                <NavLink className="logo" to={SHOP_ROUTE}>  <img src={logo} alt={"logo"} onClick={allItems}/> </NavLink>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     {
@@ -38,7 +47,6 @@ const NavigationBar = observer(() => {
                             <Button variant={"secondary"}
                                     onClick={() => history.push(ADMIN_ROUTE)}
                                     disabled={user.user.role === "ADMIN" ? false : true}
-
                             >{user.user.role === "ADMIN" ? "Admin dashboard" : "Access only for admin"}</Button>
 
                             <img id="cart-icon" src={cart} alt={"cart"} onClick={() => history.push(BASKET_ROUTE)}/>

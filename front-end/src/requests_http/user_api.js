@@ -8,7 +8,7 @@ export const registration = async (email, password, phone, name) => {
         password: password,
         phone: +phone,
         name: name,
-        role: "ADMIN"
+        role: "USER"
     }
 
     const {data} = await $host.post('api/user/registration', user)

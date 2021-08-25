@@ -1,42 +1,66 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom"
 import {DEVICE_ROUTE} from "../utils/constants";
-import ratingPNG from "../imgs/favourite.png"
-import ratingChecked from "../imgs/star_checked.png"
-import {rating} from "../requests_http/device_api";
+import like from "../imgs/like.png"
+import available from "../imgs/checked.png"
+import notAvailable from "../imgs/cancel.png"
+import {addRating} from "../requests_http/device_api";
+import {removeRating} from "../requests_http/device_api";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 
 
 const DeviceCard = observer(({devices}) => {
-    const [checked, setChecked] = useState(false)
 
     const {device, user} = useContext(Context)
-
-    let items = []
+    const history = useHistory()
 
     const setRating = () => {
-        rating(devices.id, device.page).then(data => {
-            device.setDevices(data)
-            checked ? setChecked(false) : setChecked(true)
-
-            let array = JSON.parse(localStorage.getItem("checked"))
-        })
-
+        const switchs =  JSON.parse(localStorage.getItem("switch"))
+           if (switchs === false){
+           removeRating(devices.id, device.page, device.selectedType.id, device.selectedBrand.id).then(data => {
+               device.setDevices(data.rows)
+               device.setTotalCount(data.count)
+               localStorage.setItem("switch", JSON.stringify(true))
+           })
+           } else if (switchs === null || switchs === true) {
+               addRating(devices.id, device.page, device.selectedType.id, device.selectedBrand.id).then(data => {
+                   device.setDevices(data.rows)
+                   device.setTotalCount(data.count)
+                   localStorage.setItem("switch", JSON.stringify(false))
+               })
+           }
     }
-    const history = useHistory()
 
     return (
         <div className="product-wrap">
             <div className="product-item">
                 <img src={process.env.REACT_APP_API_URL + devices.img}/>
                     <div className="product-buttons">
-                        <button type="button" className="button" onClick={() => history.push(DEVICE_ROUTE + "/" + devices.id)}>More info</button>
+                        <button type="button"
+                                className="button"
+                                onClick={() => history.push(DEVICE_ROUTE + "/" + devices.id)}>More info</button>
                     </div>
             </div>
             <div className="product-title" onClick={() => history.push(DEVICE_ROUTE + "/" + devices.id)}>
                 <div className="qqq">
                     <h5>{devices.name}</h5>
+
+                    <div className="name-and-available">
+                        {
+                            devices.isReserved ?
+                                <>
+                                    <span>not available now!</span>
+                                    <img id="available" src={notAvailable}/>
+                                </>
+                                :
+                                <>
+                                    <span>available now!</span>
+                                    <img id="available" src={available}/>
+                                </>
+                        }
+
+                    </div>
                     <div className="line"></div>
                 </div>
                 <span className="product-price">$ {devices.price}</span>
@@ -44,7 +68,7 @@ const DeviceCard = observer(({devices}) => {
             {user.IsAuth ?
                 <div className="rating">
                     <h5>rating: {devices.rating}</h5>
-                    <img src={checked ? ratingChecked : ratingPNG} onClick={setRating}/>
+                    <img src={like} onClick={setRating}/>
                 </div>
             : ''}
         </div>

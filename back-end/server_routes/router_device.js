@@ -5,9 +5,10 @@ const checkRole = require("../middleware/checkRole_middleware")
 const router = new Router()
 
 router.post("/", checkRole("ADMIN"), controller_device.create)
-router.post("/rating", controller_device.rating)
-router.post("/reserve", controller_device.changeStatusReserve)
-router.delete("/reserve", controller_device.changeStatusCancelReserve)
+router.post("/addrating", controller_device.addRating)
+router.post("/removerating", controller_device.removeRating)
+router.post("/addreserve", controller_device.changeStatusReserve)
+router.post("/removereserve", controller_device.changeStatusCancelReserve)
 router.get("/", controller_device.all)
 router.get("/:id", controller_device.getById)
 

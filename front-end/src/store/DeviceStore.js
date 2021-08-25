@@ -1,5 +1,4 @@
 import {makeAutoObservable} from "mobx";
-import photo from "../imgs/f4965aa0b26d7b9c64a5fae7387adc6b.jpg"
 
 export default class DeviceStore{
     constructor() {
@@ -11,7 +10,38 @@ export default class DeviceStore{
         this._page = 1
         this._totalCount = 0
         this._limit = 4
+        this._basket = []
         makeAutoObservable(this)
+    }
+
+
+    setIsBasket (item) {
+        const newBasket = JSON.parse(localStorage.getItem("basket"))
+        if(newBasket !== null){
+            this.setIsBasketFromLS(newBasket)
+        }
+        this._basket.push(item)
+        localStorage.setItem("basket", JSON.stringify(this.basket))
+    }
+
+    setIsBasketFromLS (items) {
+        this._basket = (items)
+    }
+
+    setRemoveFromBasket (item) {
+        const newBasket = JSON.parse(localStorage.getItem("basket"))
+        if(newBasket !== null){
+            this.setIsBasketFromLS(newBasket)
+        }
+        let index = this.basket.findIndex(n => n.id === item.id)
+        if (index !== -1) {
+            this._basket.splice(index, 1)
+            localStorage.setItem("basket", JSON.stringify(this.basket))
+        }
+    }
+
+    get basket () {
+        return this._basket
     }
 
     setIsTypes (types) {

@@ -10,9 +10,15 @@
   img
     width: 100%
 
+::-webkit-scrollbar
+  width: 0
+
 .d-flex
   align-items: flex-end
   min-height: 300px
+
+.summary-checkout
+  margin: 25px 0 0 0
 
 .spinner-border
   width: 7rem
@@ -189,6 +195,16 @@
   display: flex
   flex-direction: column
   align-items: center
+  span
+    font-size: small
+
+#available
+  width: 15px
+  margin: 0 0 0 5px
+
+.name-and-available
+  display: flex
+  align-items: center
 
 .product-title h5
   cursor: pointer
@@ -202,6 +218,7 @@
   transition: .3s ease-in-out
 
 .line
+  margin: 5px 0 0 0
   width: 100px
   height: 1px
   background: #2e2e2e
@@ -590,11 +607,6 @@ li.subtotal:before
 
 .product-details
   width: 65%
-  span
-    font-size: larger
-
-.product-frame
-  border: 1px solid #aaa
 
 .product-details
   padding: 0 1.5rem
@@ -765,6 +777,7 @@ aside
 @media (max-width: 870px)
 
   .line-modal
+
     height: 1px
     width: 352px
     background-color: black
