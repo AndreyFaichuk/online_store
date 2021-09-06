@@ -11,7 +11,7 @@ const User = sequelize.define("user", {
     password: {type: DataTypes.STRING},
     name: {type: DataTypes.STRING, allowNull: false},
     phone: {type: DataTypes.BIGINT},
-    role: {type: DataTypes.STRING, defaultValue: "USER"}
+    role: {type: DataTypes.STRING, defaultValue: "USER"},
 })
 
 
@@ -21,7 +21,7 @@ const Device = sequelize.define("device", {
     price: {type: DataTypes.INTEGER, allowNull: false},
     rating: {type: DataTypes.INTEGER, defaultValue: 0},
     img: {type: DataTypes.STRING, allowNull: false},
-    isReserved: {type: DataTypes.BOOLEAN, defaultValue: false}
+    isReserved: {type: DataTypes.BOOLEAN, defaultValue: false},
 })
 
 

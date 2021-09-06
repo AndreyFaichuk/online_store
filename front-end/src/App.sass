@@ -4,7 +4,7 @@
     text-decoration: none
     margin: 0 20px 0 0
     padding: 0.5rem
-    width: 13%
+    width: 18%
   a
     font-size: larger
   img
@@ -35,7 +35,7 @@
   color: #fff
   border-color: #6c757d
   background-color: transparent
-  margin: 0 10px 0 10px
+  margin: 5px 10px 5px 10px
 
 .card-auth
   width: 550px
@@ -97,6 +97,7 @@
 .list-group
   margin: 30px 0 0 0
 
+
 .brand
   margin: 30px 0 0 0
 
@@ -109,6 +110,7 @@
 
 .listOfDevices
   display: flex
+  align-items: flex-start
   margin: 34px 0 0 50px
 
 .device card
@@ -217,6 +219,11 @@
   position: relative
   transition: .3s ease-in-out
 
+.alert
+  width: 100%
+  display: flex
+  justify-content: center
+
 .line
   margin: 5px 0 0 0
   width: 100px
@@ -277,10 +284,12 @@
   color: #a50000
 
 .error-message
+  flex-direction: column
   position: fixed
   width: 80%
   z-index: 1
   top: 80px
+  left: 132px
   opacity: 0.8
 
 .btn-admin
@@ -800,7 +809,7 @@ aside
     flex-direction: column
     align-items: flex-start
     border-right: none
-    height: 350px
+    height: auto
     width: 40%
     font-size: x-large
     margin: 50px 0 0 0
@@ -815,3 +824,7 @@ aside
     height: 350px
     width: 20%
     margin: -100px 0 0 0
+
+  .container
+    .logo
+      width: 25%

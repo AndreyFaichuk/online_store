@@ -8,6 +8,8 @@ import {observer} from "mobx-react-lite";
 import notAvailable from "../imgs/cancel.png";
 import available from "../imgs/checked.png";
 import {Context} from "../index";
+import Success from "../components/modals/Success_auth";
+import AlertDismissibleExample from "../components/modals/Error_auth";
 
 
 
@@ -15,9 +17,15 @@ const DevicePage = observer(() => {
     const {device, user} = useContext(Context)
     const [deviceOne, setDeviceOne] = useState({info: []})
     const [loading, setLoading] = useState(true)
+    const [showSuccess, setShowSuccess] = useState()
+    const [showError, setShowError] = useState()
 
     const {id} = useParams()
 
+    const cleaner = () => {
+        setShowError('')
+        setShowSuccess('')
+    }
 
     useEffect(() => {
         getOneDevice(id)
@@ -26,9 +34,16 @@ const DevicePage = observer(() => {
     },[device.devices])
 
     const AddCart = () => {
-        addToCart(id, user.user.id).then(data => {
+        addToCart(id, user.user.id)
+            .then(data => {
             device.setDevices(data)
+            setShowSuccess("added to your cart!")
+            setTimeout(cleaner, 2000)
+        }).catch(e => {
+            setShowError(e.response.data.message)
+            setTimeout(cleaner, 2000)
         })
+
         getOneDevice(id).then(data => {
                     device.setIsBasket(data)
         })
@@ -36,6 +51,9 @@ const DevicePage = observer(() => {
 
     return (
         <>
+                {showError ? <AlertDismissibleExample errorMessage = {showError}/> : ''}
+                {showSuccess ? <Success successMessage = {showSuccess}/> : ''}
+
             {
                 loading &&
 

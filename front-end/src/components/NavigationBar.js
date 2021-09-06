@@ -8,9 +8,8 @@ import {NavLink} from "react-router-dom";
 import {ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, BASKET_ROUTE} from "../utils/constants";
 import {observer} from "mobx-react-lite";
 import logo from "../imgs/logo.PNG"
-import cart from "../imgs/add-to-cart.png"
 import {useHistory} from "react-router-dom";
-import {allBrands, allDevices, allTypes} from "../requests_http/device_api";
+import {allDevices} from "../requests_http/device_api";
 
 
 const NavigationBar = observer(() => {
@@ -49,7 +48,8 @@ const NavigationBar = observer(() => {
                                     disabled={user.user.role === "ADMIN" ? false : true}
                             >{user.user.role === "ADMIN" ? "Admin dashboard" : "Access only for admin"}</Button>
 
-                            <img id="cart-icon" src={cart} alt={"cart"} onClick={() => history.push(BASKET_ROUTE)}/>
+                          <Button variant={"secondary"} onClick={() => history.push(BASKET_ROUTE)}>Basket</Button>
+
                         </Nav>
                         :
                         <Nav className="ms-lg-auto">
